@@ -20,7 +20,7 @@ export default function Homepage() {
       <Jumbotron>
         <h1>Homepages</h1>
       </Jumbotron>
-      {homepages.length > 0 && (
+      {homepages.length && (
         <div>
           {homepages.map((homepage) => (
             <div
@@ -33,7 +33,7 @@ export default function Homepage() {
             >
               <h2>{homepage.title}</h2>
               <p>{homepage.description}</p>
-              <Link to={`/${homepages.id}`} className="visitButton">
+              <Link to={`/homepages/${homepage.id}`} className="visitButton">
                 Visit page
               </Link>
             </div>
