@@ -1,0 +1,20 @@
+.singleHomepage {
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 10px;
+  padding: 20px;
+}
+
+.visitButton {
+  color: white;
+  background-color: blue;
+  border: solid 2px none;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.visitButton:hover {
+  color: cornsilk;
+  background-color: rgb(31, 61, 231);
+  text-decoration: none;
+}

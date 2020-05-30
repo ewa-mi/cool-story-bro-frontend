@@ -15,8 +15,8 @@ export const setMessage = (variant, dismissable, text) => {
     payload: {
       variant,
       dismissable,
-      text
-    }
+      text,
+    },
   };
 };
 
@@ -26,7 +26,7 @@ export const showMessageWithTimeout = (
   text,
   timeOutMilliSeconds
 ) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(setMessage(variant, dismissable, text));
 
     const timeout = timeOutMilliSeconds || DEFAULT_MESSAGE_TIMEOUT;
