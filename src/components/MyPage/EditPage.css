@@ -1,0 +1,8 @@
+.editForm {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.editForm label {
+  display: block;
+}
