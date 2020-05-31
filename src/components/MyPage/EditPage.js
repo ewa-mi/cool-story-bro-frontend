@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "./EditPage.css";
-import { useSelector } from "react-redux";
-import { apiUrl } from "../../config/constants";
-import { selectUser } from "../../store/user/selectors.js";
+import { useDispatch } from "react-redux";
+import { updateHomepages } from "../../store/homepage/actions";
 
 export default function EditPage({
   color: defaultColor,
@@ -15,7 +13,7 @@ export default function EditPage({
   const [color, setColor] = useState(defaultColor);
   const [background, setBackground] = useState(defaultBackground);
   const [success, setSuccess] = useState(false);
-  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
 
   const onFormSubmit = (event) => {
     event.preventDefault();
@@ -28,26 +26,9 @@ export default function EditPage({
       homepageId: homepageId,
     };
 
-    patchEdit(providedChanges);
+    dispatch(updateHomepages(providedChanges));
     setSuccess(true);
   };
-
-  async function patchEdit(providedChanges) {
-    try {
-      const response = await axios.patch(
-        `${apiUrl}/homepages/edit`,
-        providedChanges,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-    } catch (error) {
-      console.log("OH NO AN ERROR", error.message);
-      console.log("WHAT HAPPENED?", error.response.data);
-    }
-  }
 
   return (
     <div>
