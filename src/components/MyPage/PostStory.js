@@ -52,7 +52,7 @@ export default function PostStory() {
         <input type="submit" value="Post!" />
       </form>
       <div>{success && <p>Success! You did it!</p>}</div>
-      {isPreviewImage && <img src={image} />}
+      {isPreviewImage && <img className="displayedImage" src={image} />}
     </div>
   );
 }

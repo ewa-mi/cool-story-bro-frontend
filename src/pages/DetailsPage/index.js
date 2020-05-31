@@ -103,6 +103,7 @@ export default function DetailsPage(props) {
         <EditPage
           color={homepages[0].color}
           background={homepages[0].backgroundColor}
+          homepageId={homepages[0].id}
         />
       )}
       {myPageSubpage === "post" && <PostStory />}

@@ -7,3 +7,9 @@
   display: block;
   margin-bottom: 10px;
 }
+
+.displayedImage {
+  width: 400px;
+  margin: 0 auto;
+  display: flex;
+}
