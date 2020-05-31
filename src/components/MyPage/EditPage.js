@@ -58,7 +58,7 @@ export default function EditPage({
           />
         </label>
 
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Save changes" />
       </form>
       <div>{success && <p>Success! You did it!</p>}</div>
     </div>
