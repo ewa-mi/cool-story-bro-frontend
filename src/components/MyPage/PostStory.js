@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import "./PostStory.css";
+import { useDispatch } from "react-redux";
+import { postStory } from "../../store/homepage/actions";
 
-export default function PostStory() {
+export default function PostStory({ homepageId }) {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState("");
   const [success, setSuccess] = useState(false);
   const [isPreviewImage, setIsPreviewImage] = useState(false);
+  const dispatch = useDispatch();
+
   const onFormSubmit = (event) => {
     event.preventDefault();
 
@@ -14,8 +18,9 @@ export default function PostStory() {
       name: name,
       content: content,
       image: image,
+      homepageId: homepageId,
     };
-    console.log(providedData);
+    dispatch(postStory(providedData));
     setSuccess(true);
   };
   return (
@@ -44,6 +49,7 @@ export default function PostStory() {
           />
         </label>
         <button
+          type="button"
           className="previewImage"
           onClick={() => setIsPreviewImage(true)}
         >

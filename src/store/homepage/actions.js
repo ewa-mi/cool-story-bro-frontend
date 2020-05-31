@@ -19,6 +19,21 @@ export async function fetchHomepages(dispatch, getState) {
   dispatch(appDoneLoading());
 }
 
+export const postStory = (providedData) => {
+  return async (dispatch, getState) => {
+    console.log("show", providedData);
+
+    const { user } = getState();
+    await axios.post(`${apiUrl}/homepages/post`, providedData, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    dispatch(fetchHomepagesAndStories());
+  };
+};
+
 export const updateHomepages = (providedChanges) => {
   return async (dispatch, getState) => {
     const { user } = getState();

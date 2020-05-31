@@ -11,8 +11,8 @@ import { Jumbotron } from "react-bootstrap";
 import EditPage from "../../components/MyPage/EditPage.js";
 import PostStory from "../../components/MyPage/PostStory.js";
 
-export default function DetailsPage(props) {
-  const { id } = useParams();
+export default function DetailsPage() {
+  let { id } = useParams();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const pageData = useSelector(selectPageData);
@@ -23,25 +23,28 @@ export default function DetailsPage(props) {
     dispatch(fetchHomepagesAndStories());
   }, [dispatch, fullSet]);
 
-  const sortedStories = pageData.stories.sort(function (a, b) {
-    return b.id - a.id;
-  });
-
   const isMyPage = pathname === "/me";
   let homepages = pageData.homepages;
+  let stories = pageData.stories;
 
   if (user.id && isMyPage) {
-    homepages = [
-      pageData.homepages.find((homepage) => homepage.userId === user.id),
-    ];
+    id = user.id;
+
+    homepages = [homepages.find((homepage) => homepage.userId === user.id)];
+
+    stories = stories.filter((story) => story.homepageId === homepages[0]?.id);
   }
+
+  const sortedStories = stories.sort(function (a, b) {
+    return b.id - a.id;
+  });
 
   return (
     <div>
       {homepages.length > 0 &&
         homepages.map(
           (homepage) =>
-            (isMyPage || parseInt(id) === homepage.id) && (
+            parseInt(id) === homepage.userId && (
               <Jumbotron
                 key={homepage.id}
                 style={{
@@ -54,7 +57,6 @@ export default function DetailsPage(props) {
               </Jumbotron>
             )
         )}
-
       {isMyPage && !myPageSubpage && user.id && (
         <div style={{ margin: "0 auto", textAlign: "center", margin: "10px" }}>
           <button
@@ -71,13 +73,10 @@ export default function DetailsPage(props) {
           </button>
         </div>
       )}
-
-      {!isMyPage &&
-        !myPageSubpage &&
-        sortedStories.length > 0 &&
+      {sortedStories?.length > 0 &&
         sortedStories.map(
           (story, index) =>
-            parseInt(id) === story.homepageId && (
+            (isMyPage || parseInt(id) === story.homepageId) && (
               <div
                 key={index}
                 style={{
@@ -98,7 +97,6 @@ export default function DetailsPage(props) {
               </div>
             )
         )}
-
       {myPageSubpage === "edit" && (
         <EditPage
           color={homepages[0].color}
@@ -106,7 +104,7 @@ export default function DetailsPage(props) {
           homepageId={homepages[0].id}
         />
       )}
-      {myPageSubpage === "post" && <PostStory />}
+      {myPageSubpage === "post" && <PostStory homepageId={homepages[0].id} />}
     </div>
   );
 }
