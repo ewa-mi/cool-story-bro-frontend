@@ -73,7 +73,8 @@ export default function DetailsPage() {
           </button>
         </div>
       )}
-      {sortedStories?.length > 0 &&
+      {!myPageSubpage &&
+        sortedStories?.length > 0 &&
         sortedStories.map(
           (story, index) =>
             (isMyPage || parseInt(id) === story.homepageId) && (
