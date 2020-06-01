@@ -26,13 +26,14 @@ export default function DetailsPage() {
   const isMyPage = pathname === "/me";
   let homepages = pageData.homepages;
   let stories = pageData.stories;
+  console.log("who is", user.id);
 
   if (user.id && isMyPage) {
     id = user.id;
 
-    homepages = [homepages.find((homepage) => homepage.userId === user.id)];
+    homepages = homepages?.filter((homepage) => homepage?.userId === user.id);
 
-    stories = stories.filter((story) => story.homepageId === homepages[0]?.id);
+    stories = stories?.filter((story) => story.homepageId === homepages[0].id);
   }
 
   const sortedStories = stories.sort(function (a, b) {
