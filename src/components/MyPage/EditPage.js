@@ -12,7 +12,6 @@ export default function EditPage({
   const [description, setDescription] = useState("");
   const [color, setColor] = useState(defaultColor);
   const [background, setBackground] = useState(defaultBackground);
-  const [success, setSuccess] = useState(false);
   const dispatch = useDispatch();
 
   const onFormSubmit = (event) => {
@@ -27,7 +26,6 @@ export default function EditPage({
     };
 
     dispatch(updateHomepages(providedChanges));
-    setSuccess(true);
   };
 
   return (
@@ -67,7 +65,6 @@ export default function EditPage({
 
         <input type="submit" value="Save changes" />
       </form>
-      <div>{success && <p>Success! You did it!</p>}</div>
     </div>
   );
 }

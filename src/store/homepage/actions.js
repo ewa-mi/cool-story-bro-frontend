@@ -1,7 +1,13 @@
 import axios from "axios";
 import { apiUrl } from "../../config/constants";
-import { appLoading, appDoneLoading } from "../appState/actions";
+
 import { fetchHomepagesAndStories } from "../detailsPage/actions";
+import {
+  appLoading,
+  appDoneLoading,
+  setMessage,
+  showMessageWithTimeout,
+} from "../appState/actions";
 
 export function setHomepages(homepages) {
   return {
@@ -21,33 +27,59 @@ export async function fetchHomepages(dispatch, getState) {
 
 export const postStory = (providedData) => {
   return async (dispatch, getState) => {
-    console.log("show", providedData);
-
     const { user } = getState();
-    await axios.post(`${apiUrl}/homepages/post`, providedData, {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    dispatch(appLoading());
+    try {
+      await axios.post(`${apiUrl}/homepages/post`, providedData, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
-    dispatch(fetchHomepagesAndStories());
+      dispatch(fetchHomepagesAndStories());
+      dispatch(showMessageWithTimeout("success", true, "story added!"));
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
   };
 };
 
 export const updateHomepages = (providedChanges) => {
   return async (dispatch, getState) => {
     const { user } = getState();
-    const response = await axios.patch(
-      `${apiUrl}/homepages/edit`,
-      providedChanges,
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      }
-    );
+    dispatch(appLoading());
+    try {
+      const response = await axios.patch(
+        `${apiUrl}/homepages/edit`,
+        providedChanges,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
 
-    dispatch(setHomepages(response.data));
-    dispatch(fetchHomepagesAndStories());
+      dispatch(setHomepages(response.data));
+      dispatch(fetchHomepagesAndStories());
+      dispatch(showMessageWithTimeout("success", true, "homepage changed"));
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
+      } else {
+        console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
+      }
+      dispatch(appDoneLoading());
+    }
   };
 };

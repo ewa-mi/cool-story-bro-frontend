@@ -7,7 +7,6 @@ export default function PostStory({ homepageId }) {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState("");
-  const [success, setSuccess] = useState(false);
   const [isPreviewImage, setIsPreviewImage] = useState(false);
   const dispatch = useDispatch();
 
@@ -21,7 +20,6 @@ export default function PostStory({ homepageId }) {
       homepageId: homepageId,
     };
     dispatch(postStory(providedData));
-    setSuccess(true);
   };
   return (
     <div>
@@ -57,7 +55,6 @@ export default function PostStory({ homepageId }) {
         </button>
         <input type="submit" value="Post!" />
       </form>
-      <div>{success && <p>Success! You did it!</p>}</div>
       {isPreviewImage && <img className="displayedImage" src={image} />}
     </div>
   );
